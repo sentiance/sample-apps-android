@@ -115,7 +115,9 @@
                         android:background="@drawable/styled_button"
                         android:drawableTop="@drawable/ic_linking"
                         android:paddingTop="16dp"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:onClick="initWithUserLinking"
+                        />
 
                 </LinearLayout>
 
@@ -176,7 +178,9 @@
                         android:paddingTop="16dp"
                         tools:ignore="SpeakableTextPresentCheck"
                         tools:layout_editor_absoluteX="132dp"
-                        tools:layout_editor_absoluteY="171dp" />
+                        tools:layout_editor_absoluteY="171dp"
+                        android:onClick="initWithoutUserLinking"
+                        />
 
                 </LinearLayout>
 

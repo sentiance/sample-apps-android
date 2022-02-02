@@ -14,12 +14,12 @@
         android:background="#F0F2F3"
         android:paddingBottom="16dp">
 
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:background="@color/black"
             android:gravity="center"
-            app:cardBackgroundColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -35,8 +35,7 @@
                 android:paddingBottom="10dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/ic_sentiance" />
-
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/welcome_title"
@@ -77,17 +76,16 @@
             app:layout_constraintVertical_bias="0.0"
             app:lineHeight="20sp" />
 
-
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:id="@+id/card_view_with_user_linking"
             android:layout_width="343dp"
             android:layout_height="136dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24sp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/white"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp"
+            android:layout_marginBottom="456dp"
+            android:background="@drawable/styled_card_view"
+            android:elevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,29 +95,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/styled_card_view"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:onClick="initWithUserLinking"
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="18dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginBottom="18sp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/button_with_user_linking"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/styled_button"
-                        android:drawableTop="@drawable/ic_linking"
-                        android:paddingTop="16dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        android:onClick="initWithUserLinking"
-                        />
-
-                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/button_with_user_linking"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/styled_button"
+                    android:drawableTop="@drawable/ic_linking"
+                    android:paddingTop="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,22 +123,21 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_forward" />
-
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
-        <androidx.cardview.widget.CardView
+        <RelativeLayout
             android:id="@+id/card_view_without_user_linking"
             android:layout_width="343dp"
             android:layout_height="136dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24sp"
             android:layout_marginEnd="16dp"
-            android:gravity="center"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp"
+            android:layout_marginBottom="456dp"
+            android:background="@drawable/styled_card_view"
+            android:elevation="5dp"
+            android:onClick="initWithoutUserLinking"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card_view_with_user_linking"
@@ -158,31 +146,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/styled_card_view"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="18dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginBottom="18sp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/button_without_user_linking"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/styled_button"
-                        android:drawableTop="@drawable/ic_not_linking"
-                        android:paddingTop="16dp"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        tools:layout_editor_absoluteX="132dp"
-                        tools:layout_editor_absoluteY="171dp"
-                        android:onClick="initWithoutUserLinking"
-                        />
-
-                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/button_without_user_linking"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/styled_button"
+                    android:drawableTop="@drawable/ic_not_linking"
+                    android:paddingTop="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -197,10 +173,9 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:drawableEndCompat="@drawable/ic_arrow_forward" />
-
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,181 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:background="#F0F2F3"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:background="@color/black"
+        android:contentDescription="@string/app_logo"
+        android:paddingLeft="105dp"
+        android:paddingTop="10dp"
+        android:paddingRight="105dp"
+        android:paddingBottom="10dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_sentiance" />
+
+    <TextView
+        android:id="@+id/welcome_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F2F3"
-        android:paddingBottom="16dp">
+        android:layout_below="@+id/header"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="191dp"
+        android:width="198dp"
+        android:height="48dp"
+        android:fontFamily="@font/nunito"
+        android:gravity="center"
+        android:text="@string/welcome_title"
+        android:textColor="#3E66FB"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.043"
+        app:lineHeight="48sp" />
 
-        <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/black"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/welcome_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome_title"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/nunito"
+        android:gravity="center"
+        android:text="@string/welcome_subtitle"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="0.0"
+        app:lineHeight="20sp" />
 
-            <ImageView
-                android:layout_width="194dp"
-                android:layout_height="59dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_logo"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_sentiance" />
-        </RelativeLayout>
+    <include
+        android:id="@+id/cta_with_user_linking"
+        layout="@layout/cta"
 
-        <TextView
-            android:id="@+id/welcome_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="271dp"
-            android:width="198dp"
-            android:height="48dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center"
-            android:text="@string/welcome_title"
-            android:textColor="#3E66FB"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header"
-            app:layout_constraintVertical_bias="0.043"
-            app:lineHeight="48sp" />
+    />
 
-        <TextView
-            android:id="@+id/welcome_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito"
-            android:gravity="center"
-            android:text="@string/welcome_subtitle"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_title"
-            app:layout_constraintVertical_bias="0.0"
-            app:lineHeight="20sp" />
+    <include
+        android:id="@+id/cta_without_user_linking"
+        layout="@layout/cta"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignBottom="@id/cta_with_user_linking" />
 
-        <RelativeLayout
-            android:id="@+id/card_view_with_user_linking"
-            android:layout_width="343dp"
-            android:layout_height="136dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24sp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="456dp"
-            android:background="@drawable/styled_card_view"
-            android:elevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome_subtitle"
-            app:layout_constraintVertical_bias="0.0">
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/card_view_with_user_linking"-->
+    <!--        android:layout_width="343dp"-->
+    <!--        android:layout_height="136dp"-->
+    <!--        android:layout_below="@+id/welcome_subtitle"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@drawable/styled_card_view"-->
+    <!--        android:elevation="5dp"-->
+    <!--        android:gravity="center">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:onClick="initWithUserLinking"
-                android:orientation="vertical"
-                android:paddingTop="16dp"
-                android:paddingBottom="18dp">
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:gravity="center"-->
+    <!--            android:onClick="initWithUserLinking"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:paddingTop="16dp"-->
+    <!--            android:paddingBottom="18dp">-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/button_with_user_linking"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="18dp"
-                    android:background="@drawable/styled_button"
-                    android:drawableTop="@drawable/ic_linking"
-                    android:paddingTop="16dp" />
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:layout_width="48dp"-->
+    <!--                android:layout_height="48dp"-->
+    <!--                android:layout_marginBottom="18dp"-->
+    <!--                android:background="@drawable/styled_button"-->
+    <!--                android:drawableTop="@drawable/ic_linking"-->
+    <!--                android:paddingTop="16dp" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:drawablePadding="8dp"
-                    android:fontFamily="@font/nunito"
-                    android:lineSpacingExtra="1sp"
-                    android:text="@string/initialise_SDK_with_user_linking"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_forward" />
-            </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="20dp"-->
+    <!--                android:layout_marginEnd="8dp"-->
+    <!--                android:drawablePadding="8dp"-->
+    <!--                android:fontFamily="@font/nunito"-->
+    <!--                android:lineSpacingExtra="1sp"-->
+    <!--                android:text="@string/initialise_SDK_with_user_linking"-->
+    <!--                android:textAlignment="center"-->
+    <!--                android:textColor="@color/blue"-->
+    <!--                android:textSize="14sp"-->
+    <!--                android:textStyle="bold"-->
+    <!--                app:drawableEndCompat="@drawable/ic_arrow_forward" />-->
+    <!--        </LinearLayout>-->
 
-        </RelativeLayout>
+    <!--    </RelativeLayout>-->
 
-        <RelativeLayout
-            android:id="@+id/card_view_without_user_linking"
-            android:layout_width="343dp"
-            android:layout_height="136dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24sp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="456dp"
-            android:background="@drawable/styled_card_view"
-            android:elevation="5dp"
-            android:onClick="initWithoutUserLinking"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_with_user_linking"
-            app:layout_constraintVertical_bias="0.226">
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/card_view_without_user_linking"-->
+    <!--        android:layout_width="343dp"-->
+    <!--        android:layout_height="136dp"-->
+    <!--        android:layout_below="@+id/card_view_with_user_linking"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:layout_marginBottom="16dp"-->
+    <!--        android:background="@drawable/styled_card_view"-->
+    <!--        android:elevation="5dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:onClick="initWithoutUserLinking">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingTop="16dp"
-                android:paddingBottom="18dp">
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:gravity="center"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:paddingTop="16dp"-->
+    <!--            android:paddingBottom="18dp">-->
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/button_without_user_linking"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="18dp"
-                    android:background="@drawable/styled_button"
-                    android:drawableTop="@drawable/ic_not_linking"
-                    android:paddingTop="16dp" />
+    <!--            <androidx.appcompat.widget.AppCompatTextView-->
+    <!--                android:layout_width="48dp"-->
+    <!--                android:layout_height="48dp"-->
+    <!--                android:layout_marginBottom="18dp"-->
+    <!--                android:background="@drawable/styled_button"-->
+    <!--                android:drawableTop="@drawable/ic_not_linking"-->
+    <!--                android:paddingTop="16dp" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:drawablePadding="8dp"
-                    android:fontFamily="@font/nunito"
-                    android:lineSpacingExtra="1sp"
-                    android:text="@string/initialise_SDK_without_user_linking"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_forward" />
-            </LinearLayout>
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="20dp"-->
+    <!--                android:layout_marginEnd="8dp"-->
+    <!--                android:drawablePadding="8dp"-->
+    <!--                android:fontFamily="@font/nunito"-->
+    <!--                android:lineSpacingExtra="1sp"-->
+    <!--                android:text="@string/initialise_SDK_without_user_linking"-->
+    <!--                android:textAlignment="center"-->
+    <!--                android:textColor="@color/blue"-->
+    <!--                android:textSize="14sp"-->
+    <!--                android:textStyle="bold"-->
+    <!--                app:drawableEndCompat="@drawable/ic_arrow_forward" />-->
+    <!--        </LinearLayout>-->
+    <!--    </RelativeLayout>-->
 
-        </RelativeLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</RelativeLayout>

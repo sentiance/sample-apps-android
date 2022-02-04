@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="667dp"
+    android:layout_height="match_parent"
     android:background="#F0F2F3"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <ImageView
@@ -29,11 +28,9 @@
         android:id="@+id/welcome_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
+        android:layout_above="@id/welcome_subtitle"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:width="198dp"
-        android:height="48dp"
         android:fontFamily="@font/nunito"
         android:gravity="center"
         android:text="@string/welcome_title"
@@ -45,7 +42,7 @@
         android:id="@+id/welcome_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/welcome_title"
+        android:layout_above="@+id/cta_with_user_linking"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="24dp"
@@ -61,10 +58,18 @@
 
     <include
         android:id="@+id/cta_with_user_linking"
-        layout="@layout/cta" />
+        layout="@layout/cta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cta_without_user_linking" />
 
     <include
         android:id="@+id/cta_without_user_linking"
-        layout="@layout/cta" />
+        layout="@layout/cta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</RelativeLayout>

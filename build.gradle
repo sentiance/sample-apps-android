@@ -21,6 +21,7 @@ allprojects {
             url "https://repository.sentiance.com"
         }
         google()
+        mavenCentral()
     }
 }
 

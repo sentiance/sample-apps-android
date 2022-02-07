@@ -23,22 +23,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleInitWithUserLinkClick() {
-        Toast.makeText(this, "Init with userlinking", Toast.LENGTH_SHORT).show()
         startNextActivity()
     }
 
     private fun handleInitWithouUserLinkingClick() {
-        Toast.makeText(this, "Init without userlinking", Toast.LENGTH_SHORT).show()
         startNextActivity()
     }
 
     private fun setupView() {
         initWithUserLinkingView = findViewById(R.id.cta_with_user_linking)
-        initWithUserLinkingView.findViewById<TextView>(R.id.cta_textview).text = getString(R.string.initialise_SDK_with_user_linking)
+        initWithUserLinkingView.findViewById<TextView>(R.id.cta_textview).text =
+            getString(R.string.initialise_SDK_with_user_linking)
 
         initWithoutUserLinkingView = findViewById(R.id.cta_without_user_linking)
-        initWithoutUserLinkingView.findViewById<TextView>(R.id.cta_textview).text = getString(R.string.initialise_SDK_without_user_linking)
-        initWithoutUserLinkingView.findViewById<AppCompatTextView>(R.id.cta_button).setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_not_linking, 0,0)
+        initWithoutUserLinkingView.findViewById<TextView>(R.id.cta_textview).text =
+            getString(R.string.initialise_SDK_without_user_linking)
+
+        initWithoutUserLinkingView.findViewById<AppCompatTextView>(R.id.cta_button)
+            .setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_not_linking, 0, 0)
 
         initWithUserLinkingView.setOnClickListener {
             handleInitWithUserLinkClick()
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun startNextActivity(){
+    private fun startNextActivity() {
         val intent = Intent(this, Dashboard::class.java)
         startActivity(intent)
     }

@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Sentiancesdksampleappandroid">
         <activity
+            android:name=".PermissionCheckActivity"
+            android:exported="false" />
+        <activity
             android:name=".Dashboard"
             android:exported="false"
             android:screenOrientation="portrait" />

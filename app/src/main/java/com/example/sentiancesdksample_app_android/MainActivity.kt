@@ -50,15 +50,18 @@ class MainActivity : AppCompatActivity(), OnInitCallback, OnStartFinishedHandler
     }
 
     private fun initializeSentianceSdk() {
-        // Create the config.
-        val config = SdkConfig.Builder(
-            SENTIANCE_APP_ID, SENTIANCE_SECRET, createNotification(channelId, notificationName)
-        ).baseURL(PREPROD_URL)
-            .setOnSdkStatusUpdateHandler(SdkStatusUpdateHandler(applicationContext))
-            .build()
 
-        // Initialize the Sentiance SDK.
-        Sentiance.getInstance(this).init(config, this)
+        if (Sentiance.getInstance(this).initState !== InitState.INITIALIZED) {
+            // Create the config.
+            val config = SdkConfig.Builder(
+                SENTIANCE_APP_ID, SENTIANCE_SECRET, createNotification(channelId, notificationName)
+            ).baseURL(PREPROD_URL)
+                .setOnSdkStatusUpdateHandler(SdkStatusUpdateHandler(applicationContext))
+                .build()
+
+            // Initialize the Sentiance SDK.
+            Sentiance.getInstance(this).init(config, this)
+        }
     }
 
     private fun createNotification(channelId: String, notificationName: String): Notification? {

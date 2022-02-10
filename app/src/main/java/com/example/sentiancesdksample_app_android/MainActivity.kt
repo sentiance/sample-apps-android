@@ -19,9 +19,8 @@ import com.sentiance.sdk.OnInitCallback.InitIssue
 
 class MainActivity : AppCompatActivity(), OnInitCallback, OnStartFinishedHandler {
 
-    private val SENTIANCE_APP_ID = "61def70da962ed090000000f"
-    private val SENTIANCE_SECRET =
-        "896b844f9ea995181033aaa4fd13d44fdf828d262066ef96cb5d1b05756121325d718c6896a3fe2a9754006dd4c9f233997a7f976a211d1307fe16cd70ced92b"
+    private val SENTIANCE_APP_ID = ""
+    private val SENTIANCE_SECRET = ""
 
     private val TAG = "SDKStarter"
 

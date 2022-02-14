@@ -5,160 +5,82 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F2F3"
     android:fillViewport="true"
     tools:context=".Dashboard">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F2F3"
-        android:paddingBottom="16dp">
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <ImageView
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
             android:background="@color/black"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:contentDescription="@string/app_logo"
+            android:paddingLeft="105dp"
+            android:paddingTop="10dp"
+            android:paddingRight="105dp"
+            android:paddingBottom="10dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_sentiance" />
 
-            <ImageView
-                android:layout_width="194dp"
-                android:layout_height="59dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_logo"
-                android:paddingLeft="15dp"
-                android:paddingTop="10dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_sentiance" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/card_view_collecting_data"
-            android:layout_width="343dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@drawable/styled_card_without_border"
-            android:elevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintVertical_bias="0.0">
+            android:background="@drawable/styled_collecting_data"
+            android:drawableStart="@drawable/ic_pulse_dot"
+            android:drawablePadding="4dp"
+            android:paddingStart="123dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:text="@string/collecting_data"
+            android:textColor="@color/green"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="9dp"
-                android:paddingBottom="9dp"
-                android:text="@string/collecting_data"
-                android:textColor="@color/text"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <include
             android:id="@+id/card_view_status"
-            android:layout_width="343dp"
+            layout="@layout/init_status"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/styled_card_without_border"
-            android:elevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_collecting_data"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_marginEnd="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="9dp"
-                android:paddingTop="9dp"
-                android:paddingRight="9dp"
-                android:paddingBottom="9dp">
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <include
             android:id="@+id/card_view_user_status"
-            android:layout_width="343dp"
+            layout="@layout/user_status"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/styled_card_without_border"
-            android:elevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_status"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_marginEnd="16dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="9dp"
-                android:paddingTop="9dp"
-                android:paddingRight="9dp"
-                android:paddingBottom="9dp">
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
+        <include
             android:id="@+id/card_view_permissions_status"
-            android:layout_width="343dp"
+            layout="@layout/permission_status"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/styled_card_without_border"
-            android:elevation="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_user_status"
-            app:layout_constraintVertical_bias="0.0">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="9dp"
-                android:paddingTop="9dp"
-                android:paddingRight="9dp"
-                android:paddingBottom="9dp">
-
-            </LinearLayout>
-
-        </RelativeLayout>
+            android:layout_marginEnd="16dp" />
 
         <Button
             android:id="@+id/button_dashboard"
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/primary_button"
             android:onClick="stopSdk"
             android:paddingTop="12dp"
@@ -167,10 +89,8 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_permissions_status" />
+            android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 </ScrollView>

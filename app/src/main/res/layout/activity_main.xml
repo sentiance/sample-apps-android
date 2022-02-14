@@ -33,7 +33,7 @@
         android:fontFamily="@font/nunito"
         android:gravity="center"
         android:text="@string/welcome_title"
-        android:textColor="#3E66FB"
+        android:textColor="@color/blue"
         android:textSize="36sp"
         android:textStyle="bold" />
 

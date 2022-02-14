@@ -8,4 +8,25 @@
     <string name="initialise_SDK_without_user_linking">Initialise SDK without user linking</string>
     <string name="collecting_data">Collecting data...</string>
     <string name="dashboard_button">Stop SDK</string>
+
+    <!--    INIT STATUS-->
+    <string name="init_status_text">Init status</string>
+    <string name="init_status">Initialized</string>
+    <string name="sdk_status_text">SDK status</string>
+    <string name="sdk_status">Started</string>
+
+    <!--    USER STATUS-->
+    <string name="user_id">User ID</string>
+    <string name="install_id">Install ID</string>
+    <string name="user_linking_id">External user ID (user linking)</string>
+
+    <!--    PERMISSION-->
+    <string name="permissions_status_text">Permissions status</string>
+    <string name="location">Location</string>
+    <string name="motion">Motion</string>
+    <string name="permissions_status_ok">All permissions provided</string>
+    <string name="permissions_status_ko">App will not work optimally</string>
+    <string name="permission_always">ALWAYS</string>
+    <string name="permission_while_in_use">WHILE IN USE</string>
+    <string name="permission_never">NEVER</string>
 </resources>

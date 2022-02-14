@@ -19,15 +19,11 @@ import com.sentiance.sdk.OnInitCallback.InitIssue
 
 class MainActivity : AppCompatActivity(), OnInitCallback, OnStartFinishedHandler {
 
-    private val SENTIANCE_APP_ID = ""
-    private val SENTIANCE_SECRET = ""
-
     private val TAG = "SDKStarter"
+    private val PREPROD_URL = "https://preprod-api.sentiance.com/"
 
     private val channelId = "trips"
     private val notificationName = "Trips"
-
-    private val PREPROD_URL = "https://preprod-api.sentiance.com"
 
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var initWithoutUserLinkingView: RelativeLayout
@@ -35,7 +31,7 @@ class MainActivity : AppCompatActivity(), OnInitCallback, OnStartFinishedHandler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        initializeSentianceSdk()
         setupView()
     }
 
@@ -44,16 +40,17 @@ class MainActivity : AppCompatActivity(), OnInitCallback, OnStartFinishedHandler
     }
 
     private fun handleInitWithouUserLinkingClick() {
-        initializeSentianceSdk()
+//        initializeSentianceSdk()
         startNextActivity()
     }
 
     private fun initializeSentianceSdk() {
-
         if (Sentiance.getInstance(this).initState !== InitState.INITIALIZED) {
             // Create the config.
             val config = SdkConfig.Builder(
-                SENTIANCE_APP_ID, SENTIANCE_SECRET, createNotification(channelId, notificationName)
+                BuildConfig.SENTIANCE_APP_ID,
+                BuildConfig.SENTIANCE_SECRET,
+                createNotification(channelId, notificationName)
             ).baseURL(PREPROD_URL)
                 .setOnSdkStatusUpdateHandler(SdkStatusUpdateHandler(applicationContext))
                 .build()

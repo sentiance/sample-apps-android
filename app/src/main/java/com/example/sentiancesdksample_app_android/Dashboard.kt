@@ -10,18 +10,12 @@ import com.example.sentiancesdksample_app_android.R.*
 import com.example.sentiancesdksample_app_android.R.color.red
 import com.sentiance.sdk.Sentiance
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.widget.Toast
+
 class Dashboard : AppCompatActivity() {
-
-    private val TAG = "SDKStarter"
-    private val ALL_PERMISSIONS_PROVIDED = "All permissions provided"
-    private val APP_WILL_NOT_WORK_OPTIMALY = "App will not work optimaly"
-    private val listener = null
-
-    enum class PERMISSIONS {
-        ALWAYS,
-        NEVER,
-        WHILE_IN_USE,
-    }
 
     private lateinit var initStatusView: RelativeLayout
     private lateinit var userStatusView: RelativeLayout
@@ -36,7 +30,6 @@ class Dashboard : AppCompatActivity() {
 
         setContentView(layout.activity_dashboard)
         setupView()
-
     }
 
     private fun setupView() {
@@ -51,6 +44,18 @@ class Dashboard : AppCompatActivity() {
 
         /* Setup userStatus */
         userStatusView = findViewById(id.card_view_user_status)
+
+        userStatusView.findViewById<TextView>(id.user_id).setOnClickListener {
+            val clipboard: ClipboardManager =
+                getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText(
+                "User id",
+                userStatusView.findViewById<TextView>(id.user_id).text
+            )
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "User ID copied !", Toast.LENGTH_SHORT).show()
+        }
+
         userStatusView.findViewById<TextView>(id.user_id).text = sentiance.userId
         userStatusView.findViewById<TextView>(id.install_id).text = sentiance.userId
         userStatusView.findViewById<TextView>(id.external_user_id).text =
@@ -59,16 +64,18 @@ class Dashboard : AppCompatActivity() {
         /* Setup PermissionStatus */
         permissionsStatusView = findViewById(id.card_view_permissions_status)
 
-        permissionsStatusView.findViewById<TextView>(id.location_state).text = getLocationStatus().toString();
+        permissionsStatusView.findViewById<TextView>(id.location_state).text =
+            getLocationStatus().key
         permissionsStatusView.findViewById<TextView>(id.motion_state).text =
-            getMotionStatus().toString()
+            getMotionStatus().key
 
         if (checkAllPermission()) {
             permissionsStatusView.findViewById<TextView>(id.permission_health).text =
-                ALL_PERMISSIONS_PROVIDED
+                PermissionsStatus.ALL_PERMISSIONS_PROVIDED.key
         } else {
             permissionsStatusView.findViewById<TextView>(id.permission_health).text =
-                APP_WILL_NOT_WORK_OPTIMALY
+                PermissionsStatus.APP_WILL_NOT_WORK_OPTIMALLY.key
+
             permissionsStatusView.findViewById<TextView>(id.permission_health).setTextColor(
                 resources.getColor(red, applicationContext.theme)
             )
@@ -79,30 +86,29 @@ class Dashboard : AppCompatActivity() {
         return str.substring(0, 1) + str.substring(1).lowercase();
     }
 
-    private fun getLocationStatus(): PERMISSIONS {
+    private fun getLocationStatus(): Permissions {
         if (Sentiance.getInstance(this).sdkStatus.isPreciseLocationPermGranted) {
-            return PERMISSIONS.ALWAYS
+            return Permissions.ALWAYS
         }
         if (Sentiance.getInstance(this).sdkStatus.isLocationPermGranted) {
-            return PERMISSIONS.WHILE_IN_USE
+            return Permissions.WHILE_IN_USE
         }
-        return PERMISSIONS.NEVER
+        return Permissions.NEVER
     }
 
-    private fun getMotionStatus(): PERMISSIONS {
+    private fun getMotionStatus(): Permissions {
         if (Sentiance.getInstance(this).sdkStatus.isActivityRecognitionPermGranted) {
-            return PERMISSIONS.ALWAYS
+            return Permissions.ALWAYS
         }
-        return PERMISSIONS.NEVER
+        return Permissions.NEVER
     }
 
     private fun checkAllPermission(): Boolean {
-        return getMotionStatus() == getLocationStatus() && getMotionStatus() == PERMISSIONS.ALWAYS
+        return getMotionStatus() == getLocationStatus() && getMotionStatus() == Permissions.ALWAYS
     }
 
     fun stopSdk(view: View) {
-
+        setupView()
     }
-
 
 }

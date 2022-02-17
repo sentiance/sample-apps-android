@@ -29,22 +29,13 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_sentiance" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <include
             android:id="@+id/card_view_collecting_data"
+            layout="@layout/collecting_data_status"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/styled_collecting_data"
-            android:drawableStart="@drawable/ic_pulse_dot"
-            android:drawablePadding="4dp"
-            android:paddingStart="123dp"
-            android:paddingTop="9dp"
-            android:paddingBottom="9dp"
-            android:text="@string/collecting_data"
-            android:textColor="@color/green"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="16dp" />
 
         <include
             android:id="@+id/card_view_status"
@@ -82,7 +73,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/primary_button"
-            android:onClick="stopSdk"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:text="@string/dashboard_button"

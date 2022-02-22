@@ -27,7 +27,7 @@ class PermissionCheckActivity : AppCompatActivity() {
         if (permissions.isNotEmpty() && !isHandlingPermissionResult(savedInstanceState)) {
             requestPermissions(permissions)
         } else {
-            startMainActivity()
+            startActivity()
         }
     }
 
@@ -39,7 +39,7 @@ class PermissionCheckActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (mPermissionManager?.notGrantedPermissions?.isEmpty() == true) {
-            startMainActivity()
+            startActivity()
         }
     }
 
@@ -88,7 +88,7 @@ class PermissionCheckActivity : AppCompatActivity() {
             alertDialog!!.dismiss()
         }
         if (mPermissionManager?.notGrantedPermissions?.isEmpty() == true) {
-            startMainActivity()
+            startActivity()
         } else {
             // Requesting a new permission doesn't work in the same activity that handles the result of a previous
             // request. We therefore restart this activity to automatically triggers additional permission requests.
@@ -110,11 +110,11 @@ class PermissionCheckActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun startMainActivity() {
+    private fun startActivity() {
         startActivity(
             Intent(
                 this,
-                MainActivity::class.java
+                Dashboard::class.java
             ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )
         finish()

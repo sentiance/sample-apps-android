@@ -4,8 +4,14 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
+import androidx.annotation.Nullable
 import androidx.core.app.NotificationCompat
 import com.sentiance.sdk.*
+import com.sentiance.sdk.OnInitCallback.InitIssue
+
+import com.sentiance.sdk.OnInitCallback
+
 
 class SentianceHelper : Activity() {
     private val SENTIANCE_APP_ID = "SentianceAppId"
@@ -16,10 +22,6 @@ class SentianceHelper : Activity() {
     private val channelId = "SentianceChannel"
     private val notificationName = "SentianceNotification"
 
-//    var context = this.applicationContext
-//    private var context: Context? = null
-//    private lateinit var sharedPreferences: SharedPreferences
-
     /**
      * Initialises the Sentiance SDK. This method should be called only once in the entire codebase,
      * specifically in the application( onCreate ) method.
@@ -29,6 +31,8 @@ class SentianceHelper : Activity() {
      * - Parameter initCallback: An optional callback
      */
     fun initSdk(context: Context, initCallback: OnInitCallback? = null) {
+        Log.i("SentianceHelper", "initSdk")
+
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val appId = sharedPreferences.getString(SENTIANCE_APP_ID, "").toString()
         val appSecret = sharedPreferences.getString(SENTIANCE_APP_SECRET, "").toString()
@@ -51,19 +55,19 @@ class SentianceHelper : Activity() {
      * - Parameter SDKParams: The SDK Params
      */
     fun createUser(context: Context, params: SDKParams) {
+//        Log.i("SentianceHelper", "createUser() -> params: $params")
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         sharedPreferences.edit().putString(SENTIANCE_APP_ID, params.appId).apply()
         sharedPreferences.edit().putString(SENTIANCE_APP_SECRET, params.appSecret).apply()
 
         params.baseUrl.let {
-            sharedPreferences.edit().putString(SENTIANCE_BASE_URL, params.baseUrl).apply()
+            sharedPreferences.edit().putString(it, params.baseUrl).apply()
         }
 
         configureSdk(context, params)
     }
 
     private fun configureSdk(context: Context, params: SDKParams) {
-
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
         if (params.appId == "" || params.appSecret == "") {
@@ -71,8 +75,10 @@ class SentianceHelper : Activity() {
         }
 
         if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
-            params.initCb.let {
-                it
+
+            params.initCb?.let {
+                Log.i("SentianceHelper", "there is an initCb")
+                it.onInitSuccess()
             }
             return
         }
@@ -102,7 +108,6 @@ class SentianceHelper : Activity() {
 
         Sentiance.getInstance(context).init(config.build(), params.initCb)
     }
-
 
     private fun createNotification(context: Context): Notification? {
         // PendingIntent that will start your application's MainActivity

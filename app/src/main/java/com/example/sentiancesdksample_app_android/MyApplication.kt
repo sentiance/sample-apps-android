@@ -12,7 +12,8 @@ class MyApplication : Application(), OnInitCallback, OnStartFinishedHandler {
 
     override fun onCreate() {
         super.onCreate()
-        // init from sentiance helper
+
+        /* Init from SentianceHelper */
         var sentianceHelper = SentianceHelper()
         sentianceHelper.initSdk(applicationContext)
     }

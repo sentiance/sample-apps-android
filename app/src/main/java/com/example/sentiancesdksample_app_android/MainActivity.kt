@@ -3,24 +3,25 @@ package com.example.sentiancesdksample_app_android
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatTextView
 import com.sentiance.sdk.OnInitCallback
+import com.sentiance.sdk.OnInitCallback.InitIssue
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var initWithoutUserLinkingView: RelativeLayout
     private lateinit var myApplication: MyApplication
-    private lateinit var sentianceHelper: SentianceHelper;
-    private val BASE_URL = "https://preprod-api.sentiance.com/"
-//    private val SHARED_PREFS = "sentiancesdksample_app_android"
+    private lateinit var sentianceHelper: SentianceHelper
+    private val baseUrl = "https://preprod-api.sentiance.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        myApplication = (applicationContext as MyApplication)!!
+        myApplication = (applicationContext as MyApplication)
         sentianceHelper = SentianceHelper()
         setContentView(R.layout.activity_main)
         setupView()
@@ -28,20 +29,40 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleInitWithUserLinkClick() {
         // todo
+        Log.i("MainActivity", "handleInitWithUserLinkClick()")
     }
 
-    private fun handleInitWithouUserLinkingClick() {
+    private fun handleInitWithoutUserLinkingClick() {
+        Log.i("MainActivity", "handleInitWithoutUserLinkingClick()")
+
+        val initCallback: OnInitCallback = object : OnInitCallback {
+            override fun onInitSuccess() {
+                Log.i("MainActivity/onInitSuccess", "Good Job")
+                startNewActivity()
+            }
+
+            override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {
+                Log.i("MainActivity/onInitFailure", "issue: $issue")
+                startNewActivity()
+            }
+        }
+
         val sdkParams =
-            SDKParams(BuildConfig.SENTIANCE_APP_ID, BuildConfig.SENTIANCE_SECRET, BASE_URL, null, OnInitCallback())
-//        Log.i("TAG", "MainActivity() -> " + sdkParams.toString())
+            SDKParams(
+                BuildConfig.SENTIANCE_APP_ID,
+                BuildConfig.SENTIANCE_SECRET,
+                baseUrl,
+                null,
+                initCallback
+            )
 
         // create user from the helper file
         sentianceHelper.createUser(applicationContext, sdkParams)
     }
 
     private fun startNewActivity() {
+        Log.i("MainActivity", "startNewActivity")
         val intent = Intent(applicationContext, Dashboard::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent)
     }
 
@@ -62,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         initWithoutUserLinkingView.setOnClickListener {
-            handleInitWithouUserLinkingClick()
+            handleInitWithoutUserLinkingClick()
         }
 
     }

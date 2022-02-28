@@ -15,15 +15,15 @@ class SDKParams {
     var appId: String
     var appSecret: String
     var baseUrl: String? = null
-    var link: MetaUserLinker? = null
-    var initCb: OnInitCallback? = null
+    var link: MetaUserLinker?
+    var initCb: OnInitCallback?
 
     constructor(
         appId: String,
         appSecret: String,
         baseUrl: String? = null,
-        link: MetaUserLinker? = null,
-        initCb: OnInitCallback? = null
+        link: MetaUserLinker?,
+        initCb: OnInitCallback?
     ) {
         this.appId = appId
         this.appSecret = appSecret

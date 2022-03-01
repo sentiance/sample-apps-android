@@ -12,16 +12,22 @@ import com.sentiance.sdk.Sentiance
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.util.Log
+import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.Nullable
 import com.sentiance.sdk.InitState
+import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.SdkStatus
 
 class Dashboard : AppCompatActivity() {
 
-    private lateinit var collectingDataStatus: TextView
+    private lateinit var collectingDataStatusView: TextView
     private lateinit var initStatusView: RelativeLayout
     private lateinit var userStatusView: RelativeLayout
     private lateinit var permissionsStatusView: RelativeLayout
+    private lateinit var buttonSdkStatus: Button
+
     var sentiance: Sentiance = Sentiance.getInstance(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,27 +47,28 @@ class Dashboard : AppCompatActivity() {
     }
 
     private fun setupView() {
-        setupCollectingDataStatus()
-        setupIniStatus()
+        setupCollectingDataStatusView()
+        setupIniStatusView()
         setupSDKStatusView()
         setupUserIdView()
         setupPermissionStatusView()
+        setupButtonStatusView()
     }
 
-    private fun setupCollectingDataStatus() {
-        collectingDataStatus = findViewById(R.id.collecting_data_text_view)
+    private fun setupCollectingDataStatusView() {
+        collectingDataStatusView = findViewById(id.collecting_data_text_view)
         if (sentiance.initState == InitState.INITIALIZED && sentiance.sdkStatus.startStatus == SdkStatus.StartStatus.STARTED
         ) {
-            collectingDataStatus.text = resources.getString(R.string.collecting_data)
+            collectingDataStatusView.text = resources.getString(string.collecting_data)
         } else {
-            collectingDataStatus.text = resources.getString(R.string.not_collecting_data)
-            collectingDataStatus.setCompoundDrawablesRelativeWithIntrinsicBounds(
+            collectingDataStatusView.text = resources.getString(R.string.not_collecting_data)
+            collectingDataStatusView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.drawable.ic_pulse_dot_red,
                 0,
                 0,
                 0
             )
-            collectingDataStatus.setTextColor(
+            collectingDataStatusView.setTextColor(
                 resources.getColor(
                     red, applicationContext.theme
                 )
@@ -69,7 +76,7 @@ class Dashboard : AppCompatActivity() {
         }
     }
 
-    private fun setupIniStatus() {
+    private fun setupIniStatusView() {
         initStatusView = findViewById(id.card_view_status)
 
         if (sentiance.initState == InitState.INITIALIZED) {
@@ -81,14 +88,14 @@ class Dashboard : AppCompatActivity() {
             initStatusView.findViewById<TextView>(id.state_init_status).text =
                 InitState.NOT_INITIALIZED.name
             initStatusView.findViewById<TextView>(id.state_init_status)
-                .setBackgroundResource(R.drawable.styled_text_view_background_red)
+                .setBackgroundResource(drawable.styled_text_view_background_red)
             initStatusView.findViewById<TextView>(id.state_init_status).setTextColor(
                 resources.getColor(
                     red, applicationContext.theme
                 )
             )
             initStatusView.findViewById<TextView>(id.state_init_status)
-                .setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_dot_red, 0, 0, 0)
+                .setCompoundDrawablesRelativeWithIntrinsicBounds(drawable.ic_dot_red, 0, 0, 0)
         }
     }
 
@@ -102,14 +109,14 @@ class Dashboard : AppCompatActivity() {
             initStatusView.findViewById<TextView>(id.state_sdk_status).text =
                 SdkStatus.StartStatus.NOT_STARTED.name
             initStatusView.findViewById<TextView>(id.state_sdk_status)
-                .setBackgroundResource(R.drawable.styled_text_view_background_red)
+                .setBackgroundResource(drawable.styled_text_view_background_red)
             initStatusView.findViewById<TextView>(id.state_sdk_status).setTextColor(
                 resources.getColor(
                     red, applicationContext.theme
                 )
             )
             initStatusView.findViewById<TextView>(id.state_sdk_status)
-                .setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_dot_red, 0, 0, 0)
+                .setCompoundDrawablesRelativeWithIntrinsicBounds(drawable.ic_dot_red, 0, 0, 0)
         }
     }
 
@@ -161,6 +168,24 @@ class Dashboard : AppCompatActivity() {
         }
     }
 
+    private fun setupButtonStatusView() {
+        buttonSdkStatus = findViewById(id.button_dashboard)
+        if (sentiance.sdkStatus.startStatus == SdkStatus.StartStatus.STARTED) {
+            buttonSdkStatus.text =
+                applicationContext.resources.getText(string.dashboard_button_stop)
+            buttonSdkStatus.setOnClickListener {
+                sentiance.stop()
+                setupView()
+            }
+        } else {
+            buttonSdkStatus.text =
+                applicationContext.resources.getText(string.dashboard_button_start)
+            buttonSdkStatus.setOnClickListener {
+                sentiance.start { setupView() }
+            }
+        }
+    }
+
     private fun getLocationStatus(): Permissions {
         if (sentiance.sdkStatus.isPreciseLocationPermGranted) {
             return Permissions.ALWAYS
@@ -182,7 +207,4 @@ class Dashboard : AppCompatActivity() {
         return getMotionStatus() == getLocationStatus() && getMotionStatus() == Permissions.ALWAYS
     }
 
-    fun stopSdk() {
-        setupView()
-    }
 }

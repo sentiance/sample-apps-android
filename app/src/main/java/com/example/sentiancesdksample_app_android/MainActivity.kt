@@ -10,6 +10,7 @@ import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatTextView
 import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.OnInitCallback.InitIssue
+import com.sentiance.sdk.Sentiance
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +39,11 @@ class MainActivity : AppCompatActivity() {
         val initCallback: OnInitCallback = object : OnInitCallback {
             override fun onInitSuccess() {
                 Log.i("MainActivity/onInitSuccess", "Good Job")
-                startNewActivity()
+                Sentiance.getInstance(applicationContext).start {
+                    //  You can include any app specific code you would like
+                    //  e.g. log the "start status", etc
+                    startNewActivity()
+                }
             }
 
             override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {

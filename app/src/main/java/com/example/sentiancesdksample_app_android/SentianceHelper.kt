@@ -31,8 +31,6 @@ class SentianceHelper : Activity() {
      * - Parameter initCallback: An optional callback
      */
     fun initSdk(context: Context, initCallback: OnInitCallback? = null) {
-        Log.i("SentianceHelper", "initSdk")
-
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         val appId = sharedPreferences.getString(SENTIANCE_APP_ID, "").toString()
         val appSecret = sharedPreferences.getString(SENTIANCE_APP_SECRET, "").toString()
@@ -55,7 +53,6 @@ class SentianceHelper : Activity() {
      * - Parameter SDKParams: The SDK Params
      */
     fun createUser(context: Context, params: SDKParams) {
-//        Log.i("SentianceHelper", "createUser() -> params: $params")
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         sharedPreferences.edit().putString(SENTIANCE_APP_ID, params.appId).apply()
         sharedPreferences.edit().putString(SENTIANCE_APP_SECRET, params.appSecret).apply()
@@ -77,7 +74,6 @@ class SentianceHelper : Activity() {
         if (Sentiance.getInstance(context).initState == InitState.INITIALIZED) {
 
             params.initCb?.let {
-                Log.i("SentianceHelper", "there is an initCb")
                 it.onInitSuccess()
             }
             return

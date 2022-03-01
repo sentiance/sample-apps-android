@@ -75,7 +75,6 @@
             android:background="@drawable/primary_button"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="@string/dashboard_button"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"

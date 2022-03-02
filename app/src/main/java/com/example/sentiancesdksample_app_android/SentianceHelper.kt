@@ -4,14 +4,36 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
-import androidx.annotation.Nullable
 import androidx.core.app.NotificationCompat
 import com.sentiance.sdk.*
-import com.sentiance.sdk.OnInitCallback.InitIssue
 
 import com.sentiance.sdk.OnInitCallback
 
+class SDKParams {
+    var appId: String
+    var appSecret: String
+    var baseUrl: String?
+    var link: MetaUserLinker?
+    var initCb: OnInitCallback?
+
+    constructor(
+        appId: String,
+        appSecret: String,
+        baseUrl: String?,
+        link: MetaUserLinker?,
+        initCb: OnInitCallback?
+    ) {
+        this.appId = appId
+        this.appSecret = appSecret
+        this.baseUrl = baseUrl
+        this.link = link
+        this.initCb = initCb
+    }
+
+    override fun toString(): String {
+        return "SDKParams(appId='$appId', appSecret='$appSecret', baseUrl=$baseUrl, link=$link, initCb=$initCb)"
+    }
+}
 
 class SentianceHelper : Activity() {
     private val SENTIANCE_APP_ID = "SentianceAppId"
@@ -19,8 +41,8 @@ class SentianceHelper : Activity() {
     private val SENTIANCE_BASE_URL = "SentianceBaseUrl"
 
     private val SHARED_PREFS = "sentiancesdksample_app_android"
-    private val channelId = "SentianceChannel"
-    private val notificationName = "SentianceNotification"
+    private val CHANNEL_ID = "SentianceChannel"
+    private val NOTIFICATION_NAME = "SentianceNotification"
 
     /**
      * Initialises the Sentiance SDK. This method should be called only once in the entire codebase,
@@ -113,13 +135,13 @@ class SentianceHelper : Activity() {
         // On Oreo and above, you must create a notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
-                NotificationChannel(channelId, notificationName, NotificationManager.IMPORTANCE_LOW)
+                NotificationChannel(CHANNEL_ID, NOTIFICATION_NAME, NotificationManager.IMPORTANCE_LOW)
             channel.setShowBadge(false)
             val notificationManager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
-        return NotificationCompat.Builder(context, channelId)
+        return NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(context.getString(R.string.app_name) + " is running")
             .setContentText("Touch to open.")
             .setContentIntent(pendingIntent)

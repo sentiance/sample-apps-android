@@ -1,59 +1,38 @@
 package com.example.sentiancesdksample_app_android
 
-import SdkStatusUpdateHandler
 import android.app.*
 import android.content.Intent
-import android.os.Build
 import android.util.Log
-import androidx.core.app.NotificationCompat
+import androidx.annotation.Nullable
 import com.sentiance.sdk.*
 import com.sentiance.sdk.OnInitCallback.InitIssue
 
 class MyApplication : Application(), OnInitCallback, OnStartFinishedHandler {
 
     private val TAG = "SDKStarter"
-    private val PREPROD_URL = "https://preprod-api.sentiance.com/"
 
-    private val channelId = "trips"
-    private val notificationName = "Trips"
+    override fun onCreate() {
+        super.onCreate()
 
-    fun initializeSentianceSdk() {
-        if (Sentiance.getInstance(this).initState !== InitState.INITIALIZED) {
-            // Create the config.
-            val config = SdkConfig.Builder(
-                BuildConfig.SENTIANCE_APP_ID,
-                BuildConfig.SENTIANCE_SECRET,
-                createNotification(channelId, notificationName)
-            ).baseURL(PREPROD_URL)
-                .setOnSdkStatusUpdateHandler(SdkStatusUpdateHandler(applicationContext))
-                .build()
+        /* Init from SentianceHelper */
+        var sentianceHelper = SentianceHelper()
 
-            // Initialize the Sentiance SDK.
-            Sentiance.getInstance(this).init(config, this)
+        val initCallback: OnInitCallback = object : OnInitCallback {
+            override fun onInitSuccess() {
+                Log.i("MyApplication/onInitSuccess", "Good Job")
+                Sentiance.getInstance(applicationContext).start {
+                    //  You can include any app specific code you would like
+                    //  e.g. log the "start status", etc
+                    startNewActivity()
+                }
+            }
+
+            override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {
+                Log.i("MyApplication/onInitFailure", "issue: $issue")
+            }
         }
-    }
 
-    private fun createNotification(channelId: String, notificationName: String): Notification? {
-        // PendingIntent that will start your application's MainActivity
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
-        // On Oreo and above, you must create a notification channel
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                NotificationChannel(channelId, notificationName, NotificationManager.IMPORTANCE_LOW)
-            channel.setShowBadge(false)
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-        return NotificationCompat.Builder(this, channelId)
-            .setContentTitle(getString(R.string.app_name) + " is running")
-            .setContentText("Touch to open.")
-            .setContentIntent(pendingIntent)
-            .setShowWhen(false)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setPriority(NotificationCompat.PRIORITY_MIN)
-            .build()
+        sentianceHelper.initSdk(applicationContext, initCallback)
     }
 
     private fun printInitSuccessLogStatements() {
@@ -123,7 +102,7 @@ class MyApplication : Application(), OnInitCallback, OnStartFinishedHandler {
     }
 
     private fun startNewActivity() {
-        val intent = Intent(this, Dashboard::class.java)
+        val intent = Intent(applicationContext, Dashboard::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent)
     }

@@ -56,7 +56,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation('com.sentiance:sdk:4.20.0@aar') {
+    implementation('com.sentiance:sdk:4.21.0@aar') {
         transitive = true
     }
 }

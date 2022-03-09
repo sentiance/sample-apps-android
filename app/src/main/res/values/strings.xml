@@ -10,7 +10,8 @@
     <!--    COLLECTING DATA STATUS-->
     <string name="collecting_data">Collecting data...</string>
     <string name="not_collecting_data">Not collecting data...</string>
-    <string name="dashboard_button">Stop SDK</string>
+    <string name="dashboard_button_stop">Stop SDK</string>
+    <string name="dashboard_button_start">Start SDK</string>
 
     <!--    INIT STATUS-->
     <string name="init_status_text">Init status</string>

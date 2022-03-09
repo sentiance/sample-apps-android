@@ -17,22 +17,23 @@ class MyApplication : Application(), OnInitCallback, OnStartFinishedHandler {
         /* Init from SentianceHelper */
         var sentianceHelper = SentianceHelper()
 
-        val initCallback: OnInitCallback = object : OnInitCallback {
-            override fun onInitSuccess() {
-                Log.i("MyApplication/onInitSuccess", "Good Job")
-                Sentiance.getInstance(applicationContext).start {
-                    //  You can include any app specific code you would like
-                    //  e.g. log the "start status", etc
-                    startNewActivity()
-                }
-            }
+//        val initCallback: OnInitCallback = object : OnInitCallback {
+//            override fun onInitSuccess() {
+//                Log.i("MyApplication/onInitSuccess", "Good Job")
+//                Sentiance.getInstance(applicationContext).start {
+//                    //  You can include any app specific code you would like
+//                    //  e.g. log the "start status", etc
+//                    startNewActivity()
+//                }
+//            }
+//
+//            override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {
+//                Log.i("MyApplication/onInitFailure", "issue: $issue")
+//            }
+//        }
+//        sentianceHelper.initSdk(applicationContext, initCallback)
+        sentianceHelper.initSdk(applicationContext)
 
-            override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {
-                Log.i("MyApplication/onInitFailure", "issue: $issue")
-            }
-        }
-
-        sentianceHelper.initSdk(applicationContext, initCallback)
     }
 
     private fun printInitSuccessLogStatements() {

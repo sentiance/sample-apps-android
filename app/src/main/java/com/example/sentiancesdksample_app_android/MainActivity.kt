@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var initWithoutUserLinkingView: RelativeLayout
     private lateinit var myApplication: MyApplication
+
     private lateinit var sentianceHelper: SentianceHelper
+
     private val baseUrl = "https://preprod-api.sentiance.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleInitWithUserLinkClick() {
-        // todo
         Log.i("MainActivity", "handleInitWithUserLinkClick()")
+        var httpHelper = HttpHelper()
+        httpHelper.fetchConfig()
     }
 
     private fun handleInitWithoutUserLinkingClick() {

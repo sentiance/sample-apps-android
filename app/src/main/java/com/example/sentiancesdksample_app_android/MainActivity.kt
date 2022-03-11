@@ -1,21 +1,21 @@
 package com.example.sentiancesdksample_app_android
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.Nullable
-import androidx.appcompat.widget.AppCompatTextView
 import com.example.sentiancesdksample_app_android.helpers.HttpHelper
 import com.example.sentiancesdksample_app_android.helpers.SDKParams
 import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
 import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.OnInitCallback.InitIssue
 import com.sentiance.sdk.Sentiance
+import com.sentiance.sdk.MetaUserLinker
+import com.sentiance.sdk.MetaUserLinkerAsync
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sentianceHelper: SentianceHelper
     private lateinit var httpHelper: HttpHelper
-
-    private lateinit var config: HttpHelper.Config
 
     private val baseUrl = "https://preprod-api.sentiance.com/"
 
@@ -42,13 +40,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleInitWithUserLinkClick() {
         Log.i(TAG, "handleInitWithUserLinkClick()")
-        httpHelper.fetchConfig()
+
+        val userLinker = MetaUserLinkerAsync{installId, callback ->
+//            httpHelper.requestLinking{installId, res }
+        }
+
+        httpHelper.fetchConfig { result ->
+
+            val sdkParams =
+                SDKParams(
+                    result.id,
+                    result.secret,
+                    baseUrl,
+                    null,
+//                    userLinker,
+                    onInitCallBack()
+                )
+
+            sentianceHelper.createUser(applicationContext, sdkParams)
+        }
+
     }
 
-    private fun handleInitWithoutUserLinkingClick() {
-        Log.i(TAG, "handleInitWithoutUserLinkingClick()")
-
-        val initCallback: OnInitCallback = object : OnInitCallback {
+    private fun onInitCallBack(): OnInitCallback {
+        return object : OnInitCallback {
             override fun onInitSuccess() {
                 Log.i("MainActivity/onInitSuccess", "Good Job")
                 Sentiance.getInstance(applicationContext).start {
@@ -63,33 +78,6 @@ class MainActivity : AppCompatActivity() {
                 startNewActivity()
             }
         }
-
-        val sdkParams =
-            SDKParams(
-                BuildConfig.SENTIANCE_APP_ID,
-                BuildConfig.SENTIANCE_SECRET,
-                baseUrl,
-                null,
-                initCallback
-            )
-
-        // create user from the helper file
-        sentianceHelper.createUser(applicationContext, sdkParams)
-
-//        var config = httpHelper.fetchConfig()
-//
-//        config.let {
-//            sentianceHelper.createUser(
-//                applicationContext,
-//                SDKParams(
-//                    config.id,
-//                    config.secret,
-//                    baseUrl,
-//                    null,
-//                    initCallback
-//                )
-//            )
-//        }
     }
 
     private fun startNewActivity() {
@@ -103,20 +91,8 @@ class MainActivity : AppCompatActivity() {
         initWithUserLinkingView.findViewById<TextView>(R.id.cta_textview).text =
             getString(R.string.initialise_SDK_with_user_linking)
 
-        initWithoutUserLinkingView = findViewById(R.id.cta_without_user_linking)
-        initWithoutUserLinkingView.findViewById<TextView>(R.id.cta_textview).text =
-            getString(R.string.initialise_SDK_without_user_linking)
-
-        initWithoutUserLinkingView.findViewById<AppCompatTextView>(R.id.cta_button)
-            .setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_not_linking, 0, 0)
-
         initWithUserLinkingView.setOnClickListener {
             handleInitWithUserLinkClick()
         }
-
-        initWithoutUserLinkingView.setOnClickListener {
-            handleInitWithoutUserLinkingClick()
-        }
-
     }
 }

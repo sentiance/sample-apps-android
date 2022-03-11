@@ -1,10 +1,12 @@
-package com.example.sentiancesdksample_app_android
+package com.example.sentiancesdksample_app_android.helpers
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.example.sentiancesdksample_app_android.MainActivity
+import com.example.sentiancesdksample_app_android.R
 import com.sentiance.sdk.*
 
 import com.sentiance.sdk.OnInitCallback

@@ -1,24 +1,33 @@
 package com.example.sentiancesdksample_app_android
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatTextView
+import com.example.sentiancesdksample_app_android.helpers.HttpHelper
+import com.example.sentiancesdksample_app_android.helpers.SDKParams
+import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
 import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.OnInitCallback.InitIssue
 import com.sentiance.sdk.Sentiance
 
 class MainActivity : AppCompatActivity() {
 
+    val TAG = "MainActivity"
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var initWithoutUserLinkingView: RelativeLayout
     private lateinit var myApplication: MyApplication
 
     private lateinit var sentianceHelper: SentianceHelper
+    private lateinit var httpHelper: HttpHelper
+
+    private lateinit var config: HttpHelper.Config
 
     private val baseUrl = "https://preprod-api.sentiance.com/"
 
@@ -26,18 +35,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         myApplication = (applicationContext as MyApplication)
         sentianceHelper = SentianceHelper()
+        httpHelper = HttpHelper()
         setContentView(R.layout.activity_main)
         setupView()
     }
 
     private fun handleInitWithUserLinkClick() {
-        Log.i("MainActivity", "handleInitWithUserLinkClick()")
-        var httpHelper = HttpHelper()
+        Log.i(TAG, "handleInitWithUserLinkClick()")
         httpHelper.fetchConfig()
     }
 
     private fun handleInitWithoutUserLinkingClick() {
-        Log.i("MainActivity", "handleInitWithoutUserLinkingClick()")
+        Log.i(TAG, "handleInitWithoutUserLinkingClick()")
 
         val initCallback: OnInitCallback = object : OnInitCallback {
             override fun onInitSuccess() {
@@ -66,10 +75,25 @@ class MainActivity : AppCompatActivity() {
 
         // create user from the helper file
         sentianceHelper.createUser(applicationContext, sdkParams)
+
+//        var config = httpHelper.fetchConfig()
+//
+//        config.let {
+//            sentianceHelper.createUser(
+//                applicationContext,
+//                SDKParams(
+//                    config.id,
+//                    config.secret,
+//                    baseUrl,
+//                    null,
+//                    initCallback
+//                )
+//            )
+//        }
     }
 
     private fun startNewActivity() {
-        Log.i("MainActivity", "startNewActivity")
+        Log.i(TAG, "startNewActivity")
         val intent = Intent(applicationContext, Dashboard::class.java)
         startActivity(intent)
     }

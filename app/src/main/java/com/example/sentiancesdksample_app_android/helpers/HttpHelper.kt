@@ -1,8 +1,10 @@
-package com.example.sentiancesdksample_app_android
+package com.example.sentiancesdksample_app_android.helpers
 
+import android.app.Activity
 import android.os.Build
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.IOException
 import java.lang.Error
@@ -13,11 +15,15 @@ enum class EndPoint(val rawValue: String) {
     config("config"), healthChecks("healthchecks"), userLink("users/:id/link");
 }
 
-class HttpHelper {
+class HttpHelper : Activity() {
     val TAG = "HttpHelper"
+    private val SHARED_PREFS = "sentiancesdksample_app_android"
+    private val baseURLString = "http://192.168.0.111:8000/"
 
-    //    private val baseURLString = "http://localhost:8000/"
-    private val baseURLString = "http://6ac7-2a02-1811-382a-8500-b0b8-5c92-bd75-2a2e.ngrok.io/"
+    private val SENTIANCE_APP_ID = "SentianceAppId"
+    private val SENTIANCE_APP_SECRET = "SentianceAppSecret"
+    private val SENTIANCE_BASE_URL = "SentianceBaseUrl"
+
     private val username = "dev-1"
     private val password = "test"
     private val client = OkHttpClient()
@@ -55,38 +61,18 @@ class HttpHelper {
         val external_id: String
     )
 
-    private fun config(json: String): Config? {
-        var config: Config? = null
-        try {
-            config = Gson().fromJson(json, Config::class.java)
-        } catch (err: Error) {
-            Log.i(TAG, err.message.toString())
-        }
-        return config
+    private fun config(data: String?): Config? {
+        val gson = GsonBuilder().create()
+        return data?.let {
+            gson.fromJson(data, Config::class.java)
+        } ?: null
     }
 
-    fun processConfigRequest(data: String?): Config? {
-        data?.let {
-            return config(it)
-        }
-        return null
-    }
-
-    fun userLink(json: String): UserLink? {
-        var userLink: UserLink? = null
-        try {
-            userLink = Gson().fromJson(json, UserLink::class.java)
-        } catch (err: Error) {
-            Log.i(TAG, err.message.toString())
-        }
-        return userLink
-    }
-
-    fun processUserLinkRequest(data: String?): UserLink? {
-        data?.let {
-            return userLink(data)
-        }
-        return null
+    fun userLink(data: String?): UserLink? {
+        val gson = GsonBuilder().create()
+        return data?.let {
+            gson.fromJson(data, UserLink::class.java)
+        } ?: null
     }
 
     fun fetchConfig() {
@@ -105,13 +91,25 @@ class HttpHelper {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     if (!response.isSuccessful) throw IOException("Unexpected code $it")
-                    Log.i(TAG, "Body => " + Gson().toJson(it.body()))
-//                    var config = processConfigRequest(it.body().toString())
-//                    Log.i(TAG, "Process config => " + config)
-//                    Log.i(TAG, Gson().toJson(it.body()))
+                    val body = response?.body()?.string()
+//                    processConfigRequest(body)
+                    var config = config(body)
+                    Log.i(TAG, "config => " + config.toString())
+
+//                    val gson = GsonBuilder().create()
+//                    val config = gson.fromJson(body, Config::class.java)
+//                    val sharedPreferences =
+//                        context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+//
+//                    sharedPreferences.edit().putString(SENTIANCE_APP_ID, config.id).apply()
+//                    sharedPreferences.edit().putString(SENTIANCE_APP_SECRET, config.secret).apply()
                 }
             }
         })
+    }
+
+    private fun processConfigRequest(data: String?): Config? {
+        return data?.let { config(data) } ?: null
     }
 
     fun linkUser(installId: String) {

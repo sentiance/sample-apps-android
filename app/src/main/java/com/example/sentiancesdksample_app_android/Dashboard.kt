@@ -12,12 +12,11 @@ import com.sentiance.sdk.Sentiance
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import androidx.annotation.Nullable
+import com.example.sentiancesdksample_app_android.helpers.Permissions
+import com.example.sentiancesdksample_app_android.helpers.PermissionsStatus
 import com.sentiance.sdk.InitState
-import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.SdkStatus
 
 class Dashboard : AppCompatActivity() {

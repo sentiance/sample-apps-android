@@ -16,16 +16,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'SENTIANCE_APP_ID', localProperties['SENTIANCE_APP_ID']
-        buildConfigField 'String', 'SENTIANCE_SECRET', localProperties['SENTIANCE_SECRET']
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', 'SENTIANCE_APP_ID', localProperties['SENTIANCE_APP_ID']
-            buildConfigField 'String', 'SENTIANCE_SECRET', localProperties['SENTIANCE_SECRET']
         }
     }
     compileOptions {

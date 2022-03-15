@@ -2,6 +2,7 @@ package com.example.sentiancesdksample_app_android.helpers
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -14,8 +15,8 @@ enum class EndPoint(val rawValue: String) {
 }
 
 class HttpHelper : Activity() {
-    val TAG = "HttpHelper"
-    private val baseURLString = "http://192.168.0.111:8000/"
+    val TAG = "SENTIANCEHELPER"
+    private val baseURLString = "http://10.0.2.2:8001/"
 
     private val username = "dev-1"
     private val password = "test"
@@ -69,6 +70,7 @@ class HttpHelper : Activity() {
     }
 
     fun fetchConfig(resultCallback: (result: Config) -> Unit) {
+        Log.i(TAG, "fetch config")
         val url: URL = getConfigUrl()
         val request = Request.Builder()
             .url(url)

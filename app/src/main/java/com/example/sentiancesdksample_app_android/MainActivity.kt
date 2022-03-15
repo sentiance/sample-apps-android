@@ -10,16 +10,13 @@ import androidx.annotation.Nullable
 import com.example.sentiancesdksample_app_android.helpers.HttpHelper
 import com.example.sentiancesdksample_app_android.helpers.SDKParams
 import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
-import com.sentiance.sdk.OnInitCallback
+import com.sentiance.sdk.*
 import com.sentiance.sdk.OnInitCallback.InitIssue
-import com.sentiance.sdk.Sentiance
-import com.sentiance.sdk.MetaUserLinker
-import com.sentiance.sdk.MetaUserLinkerAsync
 
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG = "MainActivity"
+    val TAG = "SENTIANCEHELPER"
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var initWithoutUserLinkingView: RelativeLayout
     private lateinit var myApplication: MyApplication
@@ -41,9 +38,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleInitWithUserLinkClick() {
         Log.i(TAG, "handleInitWithUserLinkClick()")
 
-        val userLinker = MetaUserLinkerAsync{installId, callback ->
-//            httpHelper.requestLinking{installId, res }
-        }
+        val linker = Linker()
 
         httpHelper.fetchConfig { result ->
 
@@ -52,8 +47,7 @@ class MainActivity : AppCompatActivity() {
                     result.id,
                     result.secret,
                     baseUrl,
-                    null,
-//                    userLinker,
+                    linker,
                     onInitCallBack()
                 )
 
@@ -94,5 +88,14 @@ class MainActivity : AppCompatActivity() {
         initWithUserLinkingView.setOnClickListener {
             handleInitWithUserLinkClick()
         }
+    }
+}
+
+class Linker : MetaUserLinkerAsync {
+
+    val TAG = "SENTIANCEHELPER"
+
+    override fun link(installId: String?, callback: MetaUserLinkerCallback?) {
+        Log.i(TAG, "Link $installId")
     }
 }

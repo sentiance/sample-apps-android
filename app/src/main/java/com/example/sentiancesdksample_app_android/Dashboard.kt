@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.sentiancesdksample_app_android.helpers.Permissions
 import com.example.sentiancesdksample_app_android.helpers.PermissionsStatus
+import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
 import com.sentiance.sdk.InitState
 import com.sentiance.sdk.SdkStatus
 
@@ -173,7 +174,7 @@ class Dashboard : AppCompatActivity() {
             buttonSdkStatus.text =
                 applicationContext.resources.getText(string.dashboard_button_stop)
             buttonSdkStatus.setOnClickListener {
-                sentiance.stop()
+                SentianceHelper().reset(this)
                 setupView()
             }
         } else {

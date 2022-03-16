@@ -37,9 +37,8 @@ class HttpHelper : Activity() {
     }
 
     private fun getUserLinkURL(installId: String): URL {
-        val url = baseURLString + EndPoint.valueOf(EndPoint.userLink.rawValue)
-        val newString = url.replace(":id", installId)
-        return URL(newString)
+        val url = baseURLString + "users/$installId/link"
+        return URL(url)
     }
 
     data class Config(

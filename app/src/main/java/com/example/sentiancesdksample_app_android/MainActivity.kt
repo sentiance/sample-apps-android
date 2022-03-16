@@ -14,7 +14,7 @@ import com.sentiance.sdk.*
 import com.sentiance.sdk.OnInitCallback.InitIssue
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
     val TAG = "SENTIANCEHELPER"
     private lateinit var initWithUserLinkingView: RelativeLayout
@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
     private fun handleInitWithUserLinkClick() {
         Log.i(TAG, "handleInitWithUserLinkClick()")
 
-        val linker = Linker()
-
         httpHelper.fetchConfig { result ->
 
             val sdkParams =
@@ -47,13 +45,21 @@ class MainActivity : AppCompatActivity() {
                     result.id,
                     result.secret,
                     baseUrl,
-                    linker,
+                    this,
                     onInitCallBack()
                 )
 
             sentianceHelper.createUser(applicationContext, sdkParams)
         }
 
+    }
+
+    override fun link(installId: String?, callback: MetaUserLinkerCallback?) {
+        Log.i(TAG, "link $installId")
+        httpHelper.requestLinking(installId!!) {
+            Log.i(TAG, "in the request linking")
+            callback?.onSuccess()
+        }
     }
 
     private fun onInitCallBack(): OnInitCallback {
@@ -91,11 +97,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class Linker : MetaUserLinkerAsync {
-
-    val TAG = "SENTIANCEHELPER"
-
-    override fun link(installId: String?, callback: MetaUserLinkerCallback?) {
-        Log.i(TAG, "Link $installId")
-    }
-}

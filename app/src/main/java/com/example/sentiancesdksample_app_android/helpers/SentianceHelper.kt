@@ -128,7 +128,7 @@ class SentianceHelper : Activity() {
             config.baseURL(
                 sharedPreferences?.getString(
                     SENTIANCE_BASE_URL,
-                    "https://preprod-api.sentiance.com/"
+                    "https://api.sentiance.com/"
                 )
             )
         }
@@ -143,7 +143,7 @@ class SentianceHelper : Activity() {
      */
     fun reset(context: Context) {
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        for(key in listOf<String>(SENTIANCE_APP_ID, SENTIANCE_APP_SECRET, SENTIANCE_BASE_URL)){
+        for(key in listOf(SENTIANCE_APP_ID, SENTIANCE_APP_SECRET, SENTIANCE_BASE_URL)){
             sharedPreferences.edit().remove(key).commit()
         }
         Sentiance.getInstance(context).reset(null)

@@ -16,8 +16,8 @@ enum class EndPoint(val rawValue: String) {
 
 class HttpHelper : Activity() {
     val TAG = "SENTIANCEHELPER"
-    private val baseURLString = "http://10.0.2.2:8001/"
-
+    private val baseURLString = "http://10.0.4.129:8000/"
+    
     private val username = "dev-1"
     private val password = "test"
     private val client = OkHttpClient()

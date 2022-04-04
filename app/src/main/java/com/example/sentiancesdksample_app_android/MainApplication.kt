@@ -7,7 +7,7 @@ import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
 import com.sentiance.sdk.*
 import com.sentiance.sdk.OnInitCallback.InitIssue
 
-class MyApplication : Application(), OnInitCallback, OnStartFinishedHandler {
+class MainApplication : Application(), OnInitCallback, OnStartFinishedHandler {
 
     private val TAG = "SDKStarter"
 

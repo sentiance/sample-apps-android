@@ -2,7 +2,6 @@ package com.example.sentiancesdksample_app_android.helpers
 
 import android.app.Activity
 import android.os.Build
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -69,7 +68,6 @@ class HttpHelper : Activity() {
     }
 
     fun fetchConfig(resultCallback: (result: Config) -> Unit) {
-        Log.i(TAG, "fetch config")
         val url: URL = getConfigUrl()
         val request = Request.Builder()
             .url(url)

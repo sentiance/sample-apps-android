@@ -4,7 +4,6 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.sentiancesdksample_app_android.MainActivity
 import com.example.sentiancesdksample_app_android.R
@@ -95,7 +94,6 @@ class SentianceHelper : Activity() {
     private fun configureSdk(context: Context, params: SDKParams) {
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
-        Log.i(TAG, "configureSDK")
         if (params.appId == "" || params.appSecret == "") {
             return
         }
@@ -118,9 +116,7 @@ class SentianceHelper : Activity() {
             config.baseURL(params.baseUrl)
         }
 
-        Log.i(TAG, "about to set link")
         if (params.link != null) {
-            Log.i(TAG, "link set")
             config.setMetaUserLinker(params.link)
         }
 

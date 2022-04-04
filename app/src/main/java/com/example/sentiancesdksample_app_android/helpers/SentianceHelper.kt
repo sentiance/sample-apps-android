@@ -1,10 +1,12 @@
-package com.example.sentiancesdksample_app_android
+package com.example.sentiancesdksample_app_android.helpers
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.example.sentiancesdksample_app_android.MainActivity
+import com.example.sentiancesdksample_app_android.R
 import com.sentiance.sdk.*
 
 import com.sentiance.sdk.OnInitCallback
@@ -13,14 +15,15 @@ class SDKParams {
     var appId: String
     var appSecret: String
     var baseUrl: String?
-    var link: MetaUserLinker?
+    var link: MetaUserLinkerAsync?
     var initCb: OnInitCallback?
+    var TAG = "SENTIANCEHELPER"
 
     constructor(
         appId: String,
         appSecret: String,
         baseUrl: String?,
-        link: MetaUserLinker?,
+        link: MetaUserLinkerAsync?,
         initCb: OnInitCallback?
     ) {
         this.appId = appId
@@ -43,6 +46,8 @@ class SentianceHelper : Activity() {
     private val SHARED_PREFS = "sentiancesdksample_app_android"
     private val CHANNEL_ID = "SentianceChannel"
     private val NOTIFICATION_NAME = "SentianceNotification"
+
+    var TAG = "SENTIANCEHELPER"
 
     /**
      * Initialises the Sentiance SDK. This method should be called only once in the entire codebase,
@@ -119,12 +124,25 @@ class SentianceHelper : Activity() {
             config.baseURL(
                 sharedPreferences?.getString(
                     SENTIANCE_BASE_URL,
-                    "https://preprod-api.sentiance.com/"
+                    "https://api.sentiance.com/"
                 )
             )
         }
 
         Sentiance.getInstance(context).init(config.build(), params.initCb)
+    }
+
+    /**
+     * Resets the SDK
+     *
+     * This method should, ideally, be called to logout the user
+     */
+    fun reset(context: Context) {
+        val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+        for(key in listOf(SENTIANCE_APP_ID, SENTIANCE_APP_SECRET, SENTIANCE_BASE_URL)){
+            sharedPreferences.edit().remove(key).commit()
+        }
+        Sentiance.getInstance(context).reset(null)
     }
 
     private fun createNotification(context: Context): Notification? {

@@ -1,7 +1,4 @@
-package com.example.sentiancesdksample_app_android
-
-import com.sentiance.sdk.MetaUserLinker
-import com.sentiance.sdk.OnInitCallback
+package com.example.sentiancesdksample_app_android.helpers
 
 enum class Permissions(val key: String) {
     ALWAYS("ALWAYS"), NEVER("NEVER"), WHILE_IN_USE("WHILE IN USE");

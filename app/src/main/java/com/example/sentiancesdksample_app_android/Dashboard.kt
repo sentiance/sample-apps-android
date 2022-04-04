@@ -1,6 +1,6 @@
 package com.example.sentiancesdksample_app_android
 
-import android.content.Intent
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RelativeLayout
@@ -9,15 +9,12 @@ import com.example.sentiancesdksample_app_android.R.*
 import com.example.sentiancesdksample_app_android.R.color.red
 import com.sentiance.sdk.Sentiance
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import androidx.annotation.Nullable
+import com.example.sentiancesdksample_app_android.helpers.Permissions
+import com.example.sentiancesdksample_app_android.helpers.PermissionsStatus
+import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
 import com.sentiance.sdk.InitState
-import com.sentiance.sdk.OnInitCallback
 import com.sentiance.sdk.SdkStatus
 
 class Dashboard : AppCompatActivity() {
@@ -28,7 +25,11 @@ class Dashboard : AppCompatActivity() {
     private lateinit var permissionsStatusView: RelativeLayout
     private lateinit var buttonSdkStatus: Button
 
+    private val SHARED_PREFS = "sentiancesdksample_app_android"
+    private val SENTIANCE_INSTALL_ID = "SentianceInstallId"
+
     var sentiance: Sentiance = Sentiance.getInstance(this)
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class Dashboard : AppCompatActivity() {
         }
 
         setContentView(layout.activity_dashboard)
+        sharedPreferences = applicationContext.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         setupView()
     }
 
@@ -127,10 +129,8 @@ class Dashboard : AppCompatActivity() {
             /* Setup userStatus */
             userStatusView.findViewById<TextView>(id.user_id).text =
                 sentiance.userId
-            userStatusView.findViewById<TextView>(id.install_id).text =
-                sentiance.userId
-            userStatusView.findViewById<TextView>(id.external_user_id).text =
-                sentiance.userId
+            userStatusView.findViewById<TextView>(id.install_id).text = sharedPreferences?.getString(SENTIANCE_INSTALL_ID, "")
+            userStatusView.findViewById<TextView>(id.external_user_id).text = sharedPreferences?.getString(SENTIANCE_INSTALL_ID, "")
 
             /* CopyToClipBoard */
             userStatusView.findViewById<TextView>(id.user_id).setOnClickListener {
@@ -174,7 +174,7 @@ class Dashboard : AppCompatActivity() {
             buttonSdkStatus.text =
                 applicationContext.resources.getText(string.dashboard_button_stop)
             buttonSdkStatus.setOnClickListener {
-                sentiance.stop()
+                SentianceHelper().reset(this)
                 setupView()
             }
         } else {

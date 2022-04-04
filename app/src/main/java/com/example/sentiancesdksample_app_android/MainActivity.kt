@@ -38,17 +38,13 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
     private fun handleInitWithUserLinkClick() {
         httpHelper.fetchConfig { result ->
-
-            val sdkParams =
-                SDKParams(
-                    result.id,
-                    result.secret,
-                    baseUrl,
-                    this,
-                    onInitCallBack()
-                )
-
-            sentianceHelper.createUser(applicationContext, sdkParams)
+            sentianceHelper.createUser(applicationContext, SDKParams(
+                result.id,
+                result.secret,
+                baseUrl,
+                this,
+                onInitCallBack()
+            ))
         }
     }
 

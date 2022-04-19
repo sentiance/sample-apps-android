@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.Nullable
 import com.example.sentiancesdksample_app_android.helpers.HttpHelper
 import com.example.sentiancesdksample_app_android.helpers.SDKParams
@@ -16,7 +17,6 @@ import com.sentiance.sdk.OnInitCallback.InitIssue
 
 class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
-    val TAG = "SENTIANCEHELPER"
     private lateinit var initWithUserLinkingView: RelativeLayout
     private lateinit var mainApplication: MainApplication
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
     private val SHARED_PREFS = "sentiancesdksample_app_android"
     private val SENTIANCE_INSTALL_ID = "SentianceInstallId"
-    private val baseUrl = "https://api.sentiance.com/"
+    private val baseUrl = "https://prepod-api.sentiance.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +38,32 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
     private fun handleInitWithUserLinkClick() {
         httpHelper.fetchConfig { result ->
-            sentianceHelper.createUser(applicationContext, SDKParams(
-                result.id,
-                result.secret,
-                baseUrl,
-                this,
-                onInitCallBack()
-            ))
+            result?.let {
+                sentianceHelper.createUser(
+                    applicationContext, SDKParams(
+                        result.id,
+                        result.secret,
+                        baseUrl,
+                        this,
+                        onInitCallBack()
+                    )
+                )
+            } ?: run {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Error: it seems that the sample backend service is not running.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
     override fun link(installId: String?, callback: MetaUserLinkerCallback?) {
         httpHelper.requestLinking(installId!!) {
-            val sharedPreferences = applicationContext.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+            val sharedPreferences =
+                applicationContext.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
             sharedPreferences.edit().putString(SENTIANCE_INSTALL_ID, installId).apply()
             callback?.onSuccess()
         }
@@ -67,7 +80,7 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
             }
 
             override fun onInitFailure(issue: InitIssue, @Nullable th: Throwable?) {
-                startNewActivity()
+                Toast.makeText(this@MainActivity, "onInitFailure: $issue", Toast.LENGTH_SHORT).show();
             }
         }
     }

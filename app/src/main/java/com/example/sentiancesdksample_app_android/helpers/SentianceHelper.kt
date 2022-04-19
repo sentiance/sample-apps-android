@@ -129,7 +129,9 @@ class SentianceHelper : Activity() {
             )
         }
 
-        Sentiance.getInstance(context).init(config.build(), params.initCb)
+        if(Sentiance.getInstance(context).initState == InitState.NOT_INITIALIZED){
+            Sentiance.getInstance(context).init(config.build(), params.initCb)
+        }
     }
 
     /**

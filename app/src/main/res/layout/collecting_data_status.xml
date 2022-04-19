@@ -12,7 +12,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/collecting_data_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_pulse_dot"
         android:drawablePadding="4dp"
         android:paddingTop="9dp"

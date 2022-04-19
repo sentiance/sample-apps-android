@@ -1,11 +1,10 @@
 <resources>
-    <string name="app_name">sentiance.sdk.sample-app-android</string>
+    <string name="app_name">Sentiance Sample App</string>
     <string name="app_logo">Sentiance</string>
     <string name="next">Next</string>
     <string name="welcome_title">Hello there!</string>
     <string name="welcome_subtitle">Please select your initialization method</string>
-    <string name="initialise_SDK_with_user_linking">Initialise SDK with user linking</string>
-    <string name="initialise_SDK_without_user_linking">Initialise SDK without user linking</string>
+    <string name="initialise_SDK_with_user_linking">Create SDK User</string>
 
     <!--    COLLECTING DATA STATUS-->
     <string name="collecting_data">Collecting data...</string>

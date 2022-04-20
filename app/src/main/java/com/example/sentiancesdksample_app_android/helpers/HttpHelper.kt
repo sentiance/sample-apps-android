@@ -56,7 +56,7 @@ class HttpHelper : Activity() {
 
     private fun config(data: String): Config? {
         val gson = GsonBuilder().create()
-        return data?.let {
+        return data.let {
             gson.fromJson(data, Config::class.java)
         } ?: null
     }

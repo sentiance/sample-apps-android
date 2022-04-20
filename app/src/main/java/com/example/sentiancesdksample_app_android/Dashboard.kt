@@ -15,9 +15,6 @@ import com.sentiance.sdk.*
 
 class Dashboard : AppCompatActivity() {
 
-    private lateinit var sentianceHelper: SentianceHelper
-    private lateinit var httpHelper: HttpHelper
-
     private lateinit var collectingDataStatusView: TextView
     private lateinit var initStatusView: RelativeLayout
     private lateinit var userStatusView: RelativeLayout
@@ -28,9 +25,6 @@ class Dashboard : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        sentianceHelper = SentianceHelper()
-        httpHelper = HttpHelper()
 
         if (PermissionManager(this).notGrantedPermissions.isNotEmpty()) {
             startActivity(Intent(this, PermissionCheckActivity::class.java))

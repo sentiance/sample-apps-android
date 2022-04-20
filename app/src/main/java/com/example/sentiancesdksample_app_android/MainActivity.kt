@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
 
     private val SHARED_PREFS = "sentiancesdksample_app_android"
     private val SENTIANCE_INSTALL_ID = "SentianceInstallId"
-    private val baseUrl = "https://prepod-api.sentiance.com/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +40,10 @@ class MainActivity : AppCompatActivity(), MetaUserLinkerAsync {
             result?.let {
                 sentianceHelper.createUser(
                     applicationContext, SDKParams(
-                        result.id,
-                        result.secret,
-                        baseUrl,
-                        this,
-                        onInitCallBack()
+                        appId = result.id,
+                        appSecret = result.secret,
+                        link = this,
+                        initCb = onInitCallBack()
                     )
                 )
             } ?: run {

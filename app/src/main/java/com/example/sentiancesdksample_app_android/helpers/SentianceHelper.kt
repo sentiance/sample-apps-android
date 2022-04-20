@@ -8,35 +8,17 @@ import androidx.core.app.NotificationCompat
 import com.example.sentiancesdksample_app_android.MainActivity
 import com.example.sentiancesdksample_app_android.R
 import com.sentiance.sdk.*
-
 import com.sentiance.sdk.OnInitCallback
 
-class SDKParams {
-    var appId: String
-    var appSecret: String
-    var baseUrl: String?
-    var link: MetaUserLinkerAsync?
-    var initCb: OnInitCallback?
-    var TAG = "SENTIANCEHELPER"
 
-    constructor(
-        appId: String,
-        appSecret: String,
-        baseUrl: String?,
-        link: MetaUserLinkerAsync?,
-        initCb: OnInitCallback?
-    ) {
-        this.appId = appId
-        this.appSecret = appSecret
-        this.baseUrl = baseUrl
-        this.link = link
-        this.initCb = initCb
-    }
-
-    override fun toString(): String {
-        return "SDKParams(appId='$appId', appSecret='$appSecret', baseUrl=$baseUrl, link=$link, initCb=$initCb)"
-    }
-}
+class SDKParams(
+    var appId: String,
+    var appSecret: String,
+    var baseUrl: String? = "https://api.sentiance.com/",
+    var link: MetaUserLinkerAsync?,
+    var initCb: OnInitCallback?,
+    var TAG: String = "SENTIANCEHELPER"
+)
 
 class SentianceHelper : Activity() {
     private val SENTIANCE_APP_ID = "SentianceAppId"
@@ -129,7 +111,7 @@ class SentianceHelper : Activity() {
             )
         }
 
-        if(Sentiance.getInstance(context).initState == InitState.NOT_INITIALIZED){
+        if (Sentiance.getInstance(context).initState == InitState.NOT_INITIALIZED) {
             Sentiance.getInstance(context).init(config.build(), params.initCb)
         }
     }
@@ -141,7 +123,7 @@ class SentianceHelper : Activity() {
      */
     fun reset(context: Context) {
         val sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
-        for(key in listOf(SENTIANCE_APP_ID, SENTIANCE_APP_SECRET, SENTIANCE_BASE_URL)){
+        for (key in listOf(SENTIANCE_APP_ID, SENTIANCE_APP_SECRET, SENTIANCE_BASE_URL)) {
             sharedPreferences.edit().remove(key).commit()
         }
         Sentiance.getInstance(context).reset(null)
@@ -155,7 +137,11 @@ class SentianceHelper : Activity() {
         // On Oreo and above, you must create a notification channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
-                NotificationChannel(CHANNEL_ID, NOTIFICATION_NAME, NotificationManager.IMPORTANCE_LOW)
+                NotificationChannel(
+                    CHANNEL_ID,
+                    NOTIFICATION_NAME,
+                    NotificationManager.IMPORTANCE_LOW
+                )
             channel.setShowBadge(false)
             val notificationManager =
                 context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

@@ -7,15 +7,11 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.sentiancesdksample_app_android.R.*
 import com.example.sentiancesdksample_app_android.R.color.red
-import com.sentiance.sdk.Sentiance
 
 import android.widget.Button
 import android.widget.Toast
-import com.example.sentiancesdksample_app_android.helpers.Permissions
-import com.example.sentiancesdksample_app_android.helpers.PermissionsStatus
-import com.example.sentiancesdksample_app_android.helpers.SentianceHelper
-import com.sentiance.sdk.InitState
-import com.sentiance.sdk.SdkStatus
+import com.example.sentiancesdksample_app_android.helpers.*
+import com.sentiance.sdk.*
 
 class Dashboard : AppCompatActivity() {
 
@@ -25,11 +21,7 @@ class Dashboard : AppCompatActivity() {
     private lateinit var permissionsStatusView: RelativeLayout
     private lateinit var buttonSdkStatus: Button
 
-    private val SHARED_PREFS = "sentiancesdksample_app_android"
-    private val SENTIANCE_INSTALL_ID = "SentianceInstallId"
-
     var sentiance: Sentiance = Sentiance.getInstance(this)
-    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +31,6 @@ class Dashboard : AppCompatActivity() {
         }
 
         setContentView(layout.activity_dashboard)
-        sharedPreferences = applicationContext.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         setupView()
     }
 
@@ -59,13 +50,12 @@ class Dashboard : AppCompatActivity() {
 
     private fun setupCollectingDataStatusView() {
         collectingDataStatusView = findViewById(id.collecting_data_text_view)
-        if (sentiance.initState == InitState.INITIALIZED && sentiance.sdkStatus.startStatus == SdkStatus.StartStatus.STARTED
-        ) {
+        if (isInitialized() && isStarted()) {
             collectingDataStatusView.text = resources.getString(string.collecting_data)
         } else {
-            collectingDataStatusView.text = resources.getString(R.string.not_collecting_data)
+            collectingDataStatusView.text = resources.getString(string.not_collecting_data)
             collectingDataStatusView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.drawable.ic_pulse_dot_red,
+                drawable.ic_pulse_dot_red,
                 0,
                 0,
                 0
@@ -81,7 +71,7 @@ class Dashboard : AppCompatActivity() {
     private fun setupIniStatusView() {
         initStatusView = findViewById(id.card_view_status)
 
-        if (sentiance.initState == InitState.INITIALIZED) {
+        if (isInitialized()) {
             /* Setup InitStatus */
             initStatusView.findViewById<TextView>(id.state_init_status).text =
                 InitState.INITIALIZED.name
@@ -104,7 +94,7 @@ class Dashboard : AppCompatActivity() {
     private fun setupSDKStatusView() {
         initStatusView = findViewById(id.card_view_status)
 
-        if (sentiance.sdkStatus.startStatus == SdkStatus.StartStatus.STARTED) {
+        if (isInitialized() && isStarted()) {
             initStatusView.findViewById<TextView>(id.state_sdk_status).text =
                 sentiance.sdkStatus.startStatus.name
         } else {
@@ -123,14 +113,12 @@ class Dashboard : AppCompatActivity() {
     }
 
     private fun setupUserIdView() {
-        if (sentiance.initState == InitState.INITIALIZED) {
+        if (isInitialized()) {
             userStatusView = findViewById(id.card_view_user_status)
 
             /* Setup userStatus */
             userStatusView.findViewById<TextView>(id.user_id).text =
                 sentiance.userId
-            userStatusView.findViewById<TextView>(id.install_id).text = sharedPreferences?.getString(SENTIANCE_INSTALL_ID, "")
-            userStatusView.findViewById<TextView>(id.external_user_id).text = sharedPreferences?.getString(SENTIANCE_INSTALL_ID, "")
 
             /* CopyToClipBoard */
             userStatusView.findViewById<TextView>(id.user_id).setOnClickListener {
@@ -162,6 +150,14 @@ class Dashboard : AppCompatActivity() {
             permissionsStatusView.findViewById<TextView>(id.permission_health).text =
                 PermissionsStatus.APP_WILL_NOT_WORK_OPTIMALLY.key
 
+            permissionsStatusView.findViewById<TextView>(id.location_state).setTextColor(
+                resources.getColor(red, applicationContext.theme)
+            )
+
+            permissionsStatusView.findViewById<TextView>(id.motion_state).setTextColor(
+                resources.getColor(red, applicationContext.theme)
+            )
+
             permissionsStatusView.findViewById<TextView>(id.permission_health).setTextColor(
                 resources.getColor(red, applicationContext.theme)
             )
@@ -170,7 +166,7 @@ class Dashboard : AppCompatActivity() {
 
     private fun setupButtonStatusView() {
         buttonSdkStatus = findViewById(id.button_dashboard)
-        if (sentiance.sdkStatus.startStatus == SdkStatus.StartStatus.STARTED) {
+        if (isInitialized() && isStarted()) {
             buttonSdkStatus.text =
                 applicationContext.resources.getText(string.dashboard_button_stop)
             buttonSdkStatus.setOnClickListener {
@@ -180,24 +176,30 @@ class Dashboard : AppCompatActivity() {
         } else {
             buttonSdkStatus.text =
                 applicationContext.resources.getText(string.dashboard_button_start)
+
+            sentiance = Sentiance.getInstance(this)
+
             buttonSdkStatus.setOnClickListener {
-                sentiance.start { setupView() }
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
             }
         }
     }
 
     private fun getLocationStatus(): Permissions {
-        if (sentiance.sdkStatus.isPreciseLocationPermGranted) {
-            return Permissions.ALWAYS
-        }
-        if (sentiance.sdkStatus.isLocationPermGranted) {
-            return Permissions.WHILE_IN_USE
+        if (isInitialized()) {
+            if (sentiance.sdkStatus.isPreciseLocationPermGranted) {
+                return Permissions.ALWAYS
+            }
+            if (sentiance.sdkStatus.isLocationPermGranted) {
+                return Permissions.WHILE_IN_USE
+            }
         }
         return Permissions.NEVER
     }
 
     private fun getMotionStatus(): Permissions {
-        if (sentiance.sdkStatus.isActivityRecognitionPermGranted) {
+        if (isInitialized() && sentiance.sdkStatus.isActivityRecognitionPermGranted) {
             return Permissions.ALWAYS
         }
         return Permissions.NEVER
@@ -207,4 +209,11 @@ class Dashboard : AppCompatActivity() {
         return getMotionStatus() == getLocationStatus() && getMotionStatus() == Permissions.ALWAYS
     }
 
+    private fun isInitialized(): Boolean {
+        return Sentiance.getInstance(this).initState == InitState.INITIALIZED
+    }
+
+    private fun isStarted(): Boolean {
+        return Sentiance.getInstance(this).sdkStatus.startStatus == SdkStatus.StartStatus.STARTED
+    }
 }

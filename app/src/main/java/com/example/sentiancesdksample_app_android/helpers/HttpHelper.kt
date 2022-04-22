@@ -2,6 +2,7 @@ package com.example.sentiancesdksample_app_android.helpers
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -55,7 +56,7 @@ class HttpHelper : Activity() {
 
     private fun config(data: String): Config? {
         val gson = GsonBuilder().create()
-        return data?.let {
+        return data.let {
             gson.fromJson(data, Config::class.java)
         } ?: null
     }
@@ -67,7 +68,9 @@ class HttpHelper : Activity() {
         } ?: null
     }
 
-    fun fetchConfig(resultCallback: (result: Config) -> Unit) {
+    fun fetchConfig(resultCallback: (result: Config?) -> Unit) {
+        Log.i(TAG, "Fetching credentials from the sample backend service")
+
         val url: URL = getConfigUrl()
         val request = Request.Builder()
             .url(url)
@@ -78,11 +81,12 @@ class HttpHelper : Activity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                resultCallback(null)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $it")
+                    if (!response.isSuccessful) resultCallback(null)
                     val body = response?.body()?.string()
                     if (body != null) {
                         config(body)?.let { b -> resultCallback(b) }

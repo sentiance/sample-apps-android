@@ -1,0 +1,2 @@
+rootProject.name = "sentiance.sdk.sample-apps-android"
+include ':app'

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view_with_user_linking"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="136dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/styled_card_view"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="18dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cta_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/styled_button"
+            android:drawableTop="@drawable/ic_linking"
+            android:paddingTop="16dp" />
+
+        <TextView
+            android:id="@+id/cta_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/nunito"
+            android:lineSpacingExtra="1sp"
+            android:text="@string/create_sdk_user"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_forward" />
+    </LinearLayout>
+</RelativeLayout>

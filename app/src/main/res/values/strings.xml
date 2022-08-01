@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Sentiance Sample App</string>
+    <string name="app_logo">Sentiance</string>
+    <string name="next">Next</string>
+    <string name="welcome_title">Hello there!</string>
+    <string name="welcome_subtitle">Please select your initialization method</string>
+    <string name="create_sdk_user">Create SDK User</string>
+
+    <!--    COLLECTING DATA STATUS-->
+    <string name="collecting_data">Collecting data...</string>
+    <string name="not_collecting_data">Not collecting data...</string>
+    <string name="dashboard_button_stop">Stop SDK</string>
+    <string name="dashboard_button_start">Start SDK</string>
+
+    <!--    INIT STATUS-->
+    <string name="init_status_text">Init status</string>
+    <string name="init_status">Initialized</string>
+    <string name="sdk_status_text">SDK status</string>
+    <string name="sdk_status">Started</string>
+
+    <!--    USER STATUS-->
+    <string name="user_id">User ID</string>
+    <string name="install_id">Install ID</string>
+    <string name="user_linking_id">External user ID (user linking)</string>
+
+    <!--    PERMISSION-->
+    <string name="permissions_status_text">Permissions status</string>
+    <string name="detection_status">Detection Status:</string>
+    <string name="location">Location</string>
+    <string name="motion">Motion</string>
+    <string name="permissions_status_ok">All permissions provided</string>
+    <string name="permissions_status_ko">App will not work optimally</string>
+    <string name="permission_always">ALWAYS</string>
+    <string name="permission_while_in_use">WHILE IN USE</string>
+    <string name="permission_never">NEVER</string>
+    <string name="issues">Issues</string>
+    <string name="warnings">Warnings</string>
+    <string name="activity_recognition">Activity Recognition</string>
+    <string name="all_permissions_provided">All permissions provided</string>
+    <string name="permission_warning">Required permissions not granted, App may not work.</string>
+    <string name="reset_sdk">Reset SDK</string>
+</resources>

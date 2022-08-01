@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_status"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/styled_card_without_border"
+    android:elevation="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="9dp"
+        android:paddingTop="9dp"
+        android:paddingRight="9dp"
+        android:paddingBottom="9dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp"
+            android:text="@string/init_status_text"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/state_init_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/styled_text_view_background"
+            android:drawableStart="@drawable/ic_dot"
+            android:drawablePadding="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/green_dark"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
